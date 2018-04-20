@@ -1,8 +1,11 @@
 import os
 import requests
-from itertools import chain, count, groupby, starmap
+
+from concurrent.futures import ProcessPoolExecutor
 from functools import lru_cache, partial
+from itertools import chain, count, groupby, repeat, starmap
 from operator import itemgetter, methodcaller
+from random import sample
 from statistics import harmonic_mean
 from uuid import uuid4
 
@@ -28,6 +31,10 @@ def get_score(leaf, posY, posX, piece, **value_map):
     }.get(piece & 0xF, 'EMPTY_SPACE')
     piece_values = value_map[piece]
     return piece_values[0] + piece_values[1][posY][posX]
+
+
+def call(_call, *args, **kwargs):
+    return _call(*args, **kwargs)
 
 
 def check_sequence(sequence, **value_map):
@@ -88,6 +95,31 @@ class BaseAgent:
     def close(self):
         self.AGENT_POOL.pop(self.agent_id, None)
         return {}
+
+    def get_boards(self, cursor):
+        '''Retrieves potential board states'''
+        params = {'lookahead': self.lookahead}
+        if cursor:
+            params['cursor'] = cursor
+        return self.request('GET', '/v1.0/games/{}/states'.format(self.game_id), params=params)
+
+    def get_boards_cursor(self):
+        cursor = True
+        while cursor:
+            board_options = self.get_boards(cursor)
+            cursor = board_options['cursor']
+            yield tuple(map(
+                lambda boards: tuple(map(
+                    lambda board: tuple(map(bytes.fromhex, board)),
+                    boards)),
+                board_options['boards']))
+
+    def get_state(self):
+        '''Gets current board state'''
+        if self.game_over:
+            return {'end': True}
+        data = self.request('GET', f'/v1.0/games/{ self.game_id }')
+        return data['state']
 
     def evaluate_boards(self, boards):
         '''Determine value for each board state in array of board states
@@ -284,6 +316,32 @@ class BaseAgent:
 
         return (best_average, best_boards)
 
+    def play_round(self):
+        '''Play a game round'''
+        with ProcessPoolExecutor(4) as executor:
+            # best_boards = [(root_value, root), ...]
+            best_boards = executor.map(
+                call,
+                map(partial(methodcaller, 'evaluate_boards'), self.get_boards_cursor()),
+                repeat(self),
+                chunksize=50)
+            # best_boards = [(root_value, [(root_value, root), ...]), ...]
+            best_boards = groupby(sorted(best_boards, reverse=True), itemgetter(0))
+            # _, best_boards = (root_value, [(root_value, root), ...])
+            try:
+                _, best_boards = next(best_boards)
+            except StopIteration:
+                return self.close()
+            # best_boards = [root, ...]
+            best_boards = list(map(
+                next,
+                map(
+                    itemgetter(1),
+                    groupby(chain.from_iterable(map(itemgetter(1), best_boards))))))
+            if not best_boards:
+                return self.close()
+            return self.put_board(sample(best_boards, 1)[0])
+
     def put_board(self, board):
         '''Sends move selection to board state manager'''
         data = {'state': tuple(map(methodcaller('hex'), board))}
@@ -291,6 +349,8 @@ class BaseAgent:
         self.game_over = data.get('end', False)
         if self.game_over:
             return self.close()
+        if data.get('invalid', False):
+            return self.play_round()
         return {}
 
     def join_game(self):
