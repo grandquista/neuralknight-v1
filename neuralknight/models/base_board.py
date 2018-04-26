@@ -24,8 +24,10 @@ class BaseBoard:
         """
         Provide game matching id.
         """
-        if _id in cls.GAMES:
+        try:
             return cls.GAMES[_id]
+        except KeyError:
+            pass
         raise NoBoard
 
     def __init__(self, board, _id=None, active_player=True):

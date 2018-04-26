@@ -1,9 +1,10 @@
 import os
 import requests
+import signal
+
 from itertools import chain, count, groupby, starmap
 from functools import lru_cache, partial
 from operator import itemgetter, methodcaller
-from random import randint
 from statistics import harmonic_mean
 from uuid import uuid4
 
@@ -43,6 +44,12 @@ def check_sequence(sequence, **value_map):
 def sequence_grouper(root, sequences, **value_map):
     root_value = harmonic_mean(map(partial(check_sequence, **value_map), sequences))
     return (round(root_value, -1), root)
+
+
+def set_trace_handle(*args):
+    import pdb
+    pdb.set_trace()
+    print('segv')
 
 
 class BaseAgent:
@@ -100,6 +107,7 @@ class BaseAgent:
             best_state: The highest valued board state in the array
 
         '''
+        signal.signal(signal.SIGSEGV, set_trace_handle)
         # Piece values
         own_pawn_val = 20100
         own_knight_val = 20320

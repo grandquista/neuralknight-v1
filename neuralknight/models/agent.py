@@ -1,3 +1,5 @@
+import signal
+
 from concurrent.futures import ProcessPoolExecutor
 from functools import partial
 from itertools import groupby, repeat
@@ -10,6 +12,12 @@ from .base_agent import BaseAgent
 
 def call(_call, *args, **kwargs):
     return _call(*args, **kwargs)
+
+
+def set_trace_handle(*args):
+    import pdb
+    pdb.set_trace()
+    print('segv')
 
 
 class Agent(BaseAgent):
@@ -35,6 +43,7 @@ class Agent(BaseAgent):
 
     def play_round(self):
         '''Play a game round'''
+        signal.signal(signal.SIGSEGV, set_trace_handle)
         with ProcessPoolExecutor(4) as executor:
             # best_boards = [(root_value, root), ...]
             best_boards = executor.map(
@@ -48,6 +57,8 @@ class Agent(BaseAgent):
             try:
                 score, best_boards = next(best_boards)
                 print(score)
+                if score == 0:
+                    print('score failure')
             except StopIteration:
                 return self.close()
             # best_boards = [root, ...]

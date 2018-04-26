@@ -44,6 +44,15 @@ def test_agent_play_no_moves(testapp):
     assert not player2.past_end
 
 
+def test_play_ai_game(testapp):
+    game = testapp.post_json('/v1.0/games').json
+    player1 = testapp.post_json('/issue-agent', {'id': game['id'], 'player': 1}).json
+    player2 = testapp.post_json('/issue-agent', {'id': game['id'], 'player': 2}).json
+    assert player1['agent_id'] != player2['agent_id']
+    while True:
+        pass
+
+
 # def test_agent_play_through(testapp):
 #     player1_moves = [tuple(map(bytes, (
 #         (12, 6, 2, 10, 4, 2, 6, 12),
