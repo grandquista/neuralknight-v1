@@ -58,7 +58,7 @@ typeshed==0.0.1
 urllib3==1.22
 venusian==1.1.0
 waitress==1.1.0
-WebOb==1.8.1
+WebOb==1.8.2
 WebTest==2.0.29
 wrapt==1.10.11
 zope.deprecation==4.3.0
