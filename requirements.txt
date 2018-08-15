@@ -34,7 +34,7 @@ pyflakes==2.0.0
 Pygments==2.2.0
 pylama==7.4.3
 pylama-pylint==3.0.1
-pylint==1.8.4
+pylint==2.1.1
 pyramid==1.9.1
 pyramid-debugtoolbar==4.4
 pyramid-jinja2==2.7
