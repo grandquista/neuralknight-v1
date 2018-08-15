@@ -19,7 +19,7 @@ Mako==1.0.7
 mando==0.6.4
 MarkupSafe==1.0
 mccabe==0.6.1
-more-itertools==4.1.0
+more-itertools==4.3.0
 mypy==0.590
 parso==0.1.1
 PasteDeploy==1.5.2
