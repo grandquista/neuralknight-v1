@@ -24,7 +24,7 @@ mypy==0.590
 parso==0.1.1
 PasteDeploy==1.5.2
 plaster==1.0
-plaster-pastedeploy==0.5
+plaster-pastedeploy==0.6
 pluggy==0.6.0
 psycopg2-binary==2.7.4
 py==1.5.4
