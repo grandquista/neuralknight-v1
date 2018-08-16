@@ -1,5 +1,4 @@
 import os
-from pyramid.config import Configurator
 
 testapp = None
 
@@ -8,6 +7,8 @@ def main(global_config, **settings):
     """
     Return a Pyramid WSGI application.
     """
+    from pyramid.config import Configurator
+
     if os.environ.get('DATABASE_URL', ''):
         settings['sqlalchemy.url'] = os.environ['DATABASE_URL']
     else:
