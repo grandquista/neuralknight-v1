@@ -1,7 +1,7 @@
 atomicwrites==1.1.5
 attrs==18.1.0
 beautifulsoup4==4.6.3
-certifi==2018.8.13
+certifi==2018.8.24
 chardet==3.0.4
 cornice==3.4.0
 coverage==4.5.1
