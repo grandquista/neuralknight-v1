@@ -1,4 +1,4 @@
-atomicwrites==1.2.0
+atomicwrites==1.2.1
 attrs==18.1.0
 beautifulsoup4==4.6.3
 certifi==2018.8.24
