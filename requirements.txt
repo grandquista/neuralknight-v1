@@ -19,7 +19,7 @@ psycopg2-binary==2.7.5
 py==1.6.0
 Pygments==2.2.0
 pyramid==1.9.2
-pyramid-debugtoolbar==4.4
+pyramid-debugtoolbar==4.5
 pyramid-jinja2==2.7
 pyramid-mako==1.0.2
 pyramid-retry==0.5
