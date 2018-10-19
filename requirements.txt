@@ -22,7 +22,7 @@ pyramid==1.9.2
 pyramid-debugtoolbar==4.5
 pyramid-jinja2==2.7
 pyramid-mako==1.0.2
-pyramid-retry==0.5
+pyramid-retry==1.0
 pyramid-tm==2.2
 pytest==3.8.2
 pytest-cov==2.6.0
