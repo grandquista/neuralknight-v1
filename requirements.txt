@@ -14,7 +14,7 @@ more-itertools==4.3.0
 PasteDeploy==1.5.2
 plaster==1.0
 plaster-pastedeploy==0.6
-pluggy==0.7.1
+pluggy==0.8.0
 psycopg2-binary==2.7.5
 py==1.7.0
 Pygments==2.2.0
