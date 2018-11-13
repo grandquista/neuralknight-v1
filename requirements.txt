@@ -4,7 +4,7 @@ beautifulsoup4==4.6.3
 certifi==2018.10.15
 chardet==3.0.4
 cornice==3.4.2
-coverage==4.5.1
+coverage==4.5.2
 hupper==1.4
 idna==2.7
 Jinja2==2.10
