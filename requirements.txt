@@ -3,7 +3,7 @@ attrs==18.2.0
 beautifulsoup4==4.7.1
 certifi==2018.11.29
 chardet==3.0.4
-cornice==3.4.4
+cornice==3.5.0
 coverage==4.5.2
 hupper==1.4.2
 idna==2.8
