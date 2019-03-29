@@ -10,7 +10,7 @@ idna==2.8
 Jinja2==2.10
 Mako==1.0.8
 MarkupSafe==1.1.1
-more-itertools==6.0.0
+more-itertools==7.0.0
 PasteDeploy==2.0.1
 plaster==1.0
 plaster-pastedeploy==0.6
