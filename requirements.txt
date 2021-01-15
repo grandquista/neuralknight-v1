@@ -8,7 +8,7 @@ coverage==4.5.3
 hupper==1.8.1
 idna==2.8
 Jinja2==2.10.1
-Mako==1.0.12
+Mako==1.1.4
 MarkupSafe==1.1.1
 more-itertools==7.1.0
 PasteDeploy==2.0.1
