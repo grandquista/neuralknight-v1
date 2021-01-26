@@ -24,7 +24,7 @@ pyramid-jinja2==2.8
 pyramid-mako==1.0.2
 pyramid-retry==2.0
 pyramid-tm==2.2.1
-pytest==4.6.3
+pytest==6.2.2
 pytest-cov==2.7.1
 repoze.lru==0.7
 requests==2.22.0
